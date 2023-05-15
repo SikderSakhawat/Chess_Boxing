@@ -1,5 +1,6 @@
 package ChessEngine.board;
 import ChessEngine.piece.Piece;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,7 @@ public abstract class Tile {
 
     protected final int tileCoord;
 
-    private static final Map<Integer, EmptyTile> EMPTY_TILES = createAllPossibleEmptyTiles();
+    private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 
     private static Map<Integer, EmptyTile> createAllPossibleEmptyTiles() {
         final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
@@ -17,10 +18,15 @@ public abstract class Tile {
         for(int i = 0; i < 64; i++){
             emptyTileMap.put(i, new EmptyTile(i));
         }
-        return null;
+
+        return ImmutableMap.copyOf(emptyTileMap); // made so any new emptyTile doesnt get changed, so ImmutableMap keeps it as some "container"
     }
 
-    public Tile(int coord){
+    public static Tile createTile(final int tileCoordinate, final Piece piece){
+        return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES_CACHE.get(tileCoordinate);
+        // allows you to create a tile or create a new occupied tile if there is an empty tile there
+    }
+    private Tile(int coord){
         tileCoord = coord;
     }
 
@@ -30,7 +36,7 @@ public abstract class Tile {
 
     // subclass of the empty tile
     public static class EmptyTile extends Tile{
-        EmptyTile(final int x){
+        private EmptyTile(final int x){
             super(x);
         }
 
@@ -49,7 +55,7 @@ public abstract class Tile {
     public static final class OccupiedTile extends Tile{
         private final Piece pieceOnTile;
 
-        OccupiedTile(int tileCoord, Piece pieceOnTile){
+        private OccupiedTile(int tileCoord, Piece pieceOnTile){
             super(tileCoord);
             this.pieceOnTile = pieceOnTile;
         }
