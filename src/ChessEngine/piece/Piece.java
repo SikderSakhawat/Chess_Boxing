@@ -4,6 +4,7 @@ import ChessEngine.Alliance;
 import ChessEngine.board.Board;
 import ChessEngine.board.Move;
 
+import java.util.Collection;
 import java.util.List;
 
 public abstract class Piece {
@@ -19,6 +20,7 @@ public abstract class Piece {
         return this.piecedAlliance;
     }
 
-    public abstract List<Move> calcLegalMoves(final Board board); // All our chess pieces will override this method to have their own possible moves defined
+    // All our chess pieces will override this method to have their own possible moves defined
+    public abstract Collection<Move> calcLegalMoves(final Board board);
 
 }
