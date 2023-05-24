@@ -52,4 +52,12 @@ public class Queen extends Piece{
 
         return ImmutableList.copyOf(legalMoves);
     }
+
+    // edge cases
+    private static boolean isFirstColExclude(final int currentPos, final int offset){
+        return BoardUtility.FIRST_COLUMN[currentPos] && (offset == -9 || offset == 7 || offset == 1);
+    }
+    private static boolean isEighthColExclude(final int currentPos, final int offset){
+        return BoardUtility.EIGHTH_COLUMN[currentPos] && (offset == 9 || offset == -7 || offset == -1);
+    }
 }

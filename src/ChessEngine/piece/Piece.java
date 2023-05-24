@@ -10,10 +10,17 @@ import java.util.List;
 public abstract class Piece {
     protected final int piecePosition;
     protected final Alliance piecedAlliance;
+    protected final boolean isFirstMove;
     // Alliance used for pieces is going to be helpful for players as well
     public Piece(final int piecePos, final Alliance pieceAll){
         this.piecedAlliance = pieceAll;
         this.piecePosition = piecePos;
+        // TODO more work!!
+        this.isFirstMove = false;
+    }
+
+    public boolean isFirstMove(){
+        return this.isFirstMove;
     }
 
     public Alliance getPiecedAlliance(){
