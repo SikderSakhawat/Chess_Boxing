@@ -19,6 +19,9 @@ public abstract class Piece {
         this.isFirstMove = false;
     }
 
+    public int getPiecePosition(){
+        return this.piecePosition;
+    }
     public boolean isFirstMove(){
         return this.isFirstMove;
     }

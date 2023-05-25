@@ -2,9 +2,11 @@
   <library name="checker-qual-3.12.0">
     <CLASSES>
       <root url="file://$USER_HOME$/OneDrive/Desktop/jar_files" />
+      <root url="file://$PROJECT_DIR$/../jar_files" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../jar_files" recursive="false" />
     <jarDirectory url="file://$USER_HOME$/OneDrive/Desktop/jar_files" recursive="false" />
   </library>
 </component>
