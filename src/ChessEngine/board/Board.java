@@ -1,6 +1,8 @@
 package ChessEngine.board;
 
 import ChessEngine.Alliance;
+import ChessEngine.board.player.BlackPlayer;
+import ChessEngine.board.player.WhitePlayer;
 import ChessEngine.piece.*;
 import com.google.common.collect.ImmutableList;
 
@@ -11,6 +13,9 @@ public class Board {
     private final Collection<Piece> whitePiece;
     private final Collection<Piece> blackPiece;
 
+    private final WhitePlayer whitePlayer;
+    private final BlackPlayer blackPlayer;
+
     private Board(Builder builder){
         this.gameBoard = createGameBoard(builder);
         this.whitePiece = calcActivePieces(this.gameBoard, Alliance.WHITE);
@@ -19,6 +24,8 @@ public class Board {
         final Collection<Move> whiteStandardLegalMoves = calcLegalMoves(this.whitePiece);
         final Collection<Move> blackStandardLegalMoves = calcLegalMoves(this.blackPiece);
 
+        this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
     }
 
     // allows for the collection of all legal moves for each piece
