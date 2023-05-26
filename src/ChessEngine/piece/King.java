@@ -30,19 +30,18 @@ public class King extends Piece {
             }
             if(BoardUtility.isValidTileCoord(candidateDestinationCoords)){
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoords);
+                if(!candidateDestinationTile.isOccupied()){
+                    legalMoves.add(new MajorMove(board, this, candidateDestinationCoords));
+                } else {
+                    final Piece pieceDestination = candidateDestinationTile.getPiece();
+                    final Alliance pieceAlliance = pieceDestination.getPiecedAlliance();
 
-            }
-            final Tile candidateDestinationTile = board.getTile(candidateDestinationCoords);
-            if(!candidateDestinationTile.isOccupied()){
-                legalMoves.add(new MajorMove(board, this, candidateDestinationCoords));
-            } else {
-                final Piece pieceDestination = candidateDestinationTile.getPiece();
-                final Alliance pieceAlliance = pieceDestination.getPiecedAlliance();
-
-                if(this.piecedAlliance != pieceAlliance){
-                    legalMoves.add(new AttackMove(board, this, candidateDestinationCoords, pieceDestination));
+                    if(this.piecedAlliance != pieceAlliance){
+                        legalMoves.add(new AttackMove(board, this, candidateDestinationCoords, pieceDestination));
+                    }
                 }
             }
+
         }
         return ImmutableList.copyOf(legalMoves);
     }

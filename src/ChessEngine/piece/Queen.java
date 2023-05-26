@@ -26,7 +26,7 @@ public class Queen extends Piece{
 
             while (BoardUtility.isValidTileCoord(candidateDestinationCoord)){
                 if(isFirstColExclude(candidateDestinationCoord, candidateCoordOffset) ||
-                        isEighthColExclude(candidateCoordOffset,candidateCoordOffset)){
+                        isEighthColExclude(candidateDestinationCoord,candidateCoordOffset)){
                     break; // if true we don't want this move as it breaks our edge cases
                 }
                 candidateDestinationCoord += candidateCoordOffset;

@@ -32,7 +32,10 @@ public class BoardUtility {
 
     public static boolean[] initRow (int rowNum){
         final boolean[] row = new boolean[NUM_TILES];
-
-
+        do{
+            row[rowNum] = true;
+            rowNum++;
+        } while (rowNum % NUM_TILES_PER_ROW != 0);
+        return row;
     }
 }

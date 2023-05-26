@@ -69,7 +69,7 @@ public abstract class Tile {
 
         // overridden class from Tile
         public Piece getPiece() {
-            return null;
+            return pieceOnTile;
         }
 
         // If a tile has an occupied piece on it, it adds that piece onto the string, else it appends a "-"

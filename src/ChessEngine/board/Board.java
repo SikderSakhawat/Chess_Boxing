@@ -31,12 +31,12 @@ public class Board {
         return ImmutableList.copyOf(legalMoves);
     }
 
-    public Collection<Piece> calcActivePieces(final List<Tile> gameBoard, Alliance color){
+    public Collection<Piece> calcActivePieces(final List<Tile> gameBoard, final Alliance color){
         final List<Piece> activePieces = new ArrayList<>();
         for(final Tile tile : gameBoard){
             if(tile.isOccupied()){
                 final Piece piece = tile.getPiece();
-                if(piece.getPiecedAlliance() == color){
+                if(piece.getPiecedAlliance() == color) {
                     activePieces.add(piece);
                 }
             }
