@@ -59,5 +59,7 @@ public class Bishop extends Piece {
         return BoardUtility.EIGHTH_COLUMN[currentPos] && (offset == 9 || offset == -7);
     }
 
-
+    public String toString(){
+        return PieceType.BISHOP.toString();
+    }
 }

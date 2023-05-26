@@ -33,4 +33,22 @@ public abstract class Piece {
     // All our chess pieces will override this method to have their own possible moves defined
     public abstract Collection<Move> calcLegalMoves(final Board board);
 
+    public enum PieceType{
+        PAWN("P"),
+        KNIGHT("N"),
+        BISHOP("B"),
+        ROOK("R"),
+        KING("K"),
+        QUEEN("Q");
+
+        private String pieceName;
+        PieceType(final String pieceName){
+            this.pieceName = pieceName;
+        }
+
+        @Override
+        public String toString(){
+            return this.pieceName;
+        }
+    }
 }

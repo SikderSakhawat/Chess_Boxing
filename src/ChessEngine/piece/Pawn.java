@@ -65,4 +65,7 @@ public class Pawn extends Piece{
 
     // TODO Case when En Passant happens
 
+    public String toString(){
+        return PieceType.PAWN.toString();
+    }
 }

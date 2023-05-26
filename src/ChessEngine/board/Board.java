@@ -108,6 +108,7 @@ public class Board {
         Alliance nextMoveMaker;
 
         public Builder(){
+            this.boardConfig = new HashMap<>();
         }
         public Builder setPiece(final Piece piece){
             this.boardConfig.put(piece.getPiecePosition(), piece);
@@ -126,19 +127,12 @@ public class Board {
     public String toString(){
         final StringBuilder builder = new StringBuilder();
         for(int i = 0; i < BoardUtility.NUM_TILES; i++){
-            final String tileText = Board.prettyPrint(this.gameBoard.get(i));
+            final String tileText = this.gameBoard.get(i).toString();
             builder.append(String.format("%3s", tileText));
-            if(i + 1 % BoardUtility.NUM_TILES_PER_ROW == 0){
+            if((i + 1) % BoardUtility.NUM_TILES_PER_ROW == 0){
                 builder.append("\n");
             }
         }
         return builder.toString();
-    }
-
-    public static String prettyPrint(final Tile tile){
-        if(tile.isOccupied()){
-            return tile.getPiece().getPiecedAlliance().isBlack() ? tile.toString().toLowerCase() : tile.toString();
-        }
-        return null;
     }
 }

@@ -55,4 +55,8 @@ public class King extends Piece {
     private static boolean isSecondColExclude(final int currentPos, final int candidateOffset){
         return BoardUtility.EIGHTH_COLUMN[currentPos] && ((candidateOffset == 1) || (candidateOffset == 9) || (candidateOffset == -7));
     }
+
+    public String toString(){
+        return PieceType.KING.toString();
+    }
 }

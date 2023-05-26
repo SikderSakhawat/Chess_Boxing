@@ -33,6 +33,9 @@ public abstract class Tile {
     // Methods will get defined in a subclass where these tiles have
     public abstract boolean isOccupied();
     public abstract Piece getPiece();
+    public String toString(){
+        return "-";
+    }
 
     // subclass of the empty tile
     public static class EmptyTile extends Tile{
@@ -67,6 +70,12 @@ public abstract class Tile {
         // overridden class from Tile
         public Piece getPiece() {
             return null;
+        }
+
+        // If a tile has an occupied piece on it, it adds that piece onto the string, else it appends a "-"
+        // Black pieces will show a lowercase, white pieces show an uppercase
+        public String toString(){
+            return getPiece().getPiecedAlliance().isBlack() ? getPiece().toString().toLowerCase() : getPiece().toString();
         }
     }
 }
