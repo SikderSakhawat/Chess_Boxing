@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static ChessEngine.piece.Piece.PieceType.KING;
+
 public class Rook extends Piece{
 
     private final static int[] MOVE_VECTOR_COORDS = {-8,-1,1,8};
 
     public Rook(int piecePos, Alliance pieceAll) {
-        super(piecePos, pieceAll);
+        super(PieceType.ROOK, piecePos, pieceAll);
     }
 
     @Override

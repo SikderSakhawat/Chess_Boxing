@@ -13,7 +13,7 @@ import static ChessEngine.board.Move.*;
 public class Pawn extends Piece{
     private static final int[] CANDIDATE_MOVE_COORD = {8,16, 7 ,9};
     public Pawn(final int piecePos, final Alliance pieceAll) {
-        super(piecePos, pieceAll);
+        super(PieceType.PAWN, piecePos, pieceAll);
     }
 
     @Override

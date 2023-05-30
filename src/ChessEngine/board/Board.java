@@ -2,6 +2,7 @@ package ChessEngine.board;
 
 import ChessEngine.Alliance;
 import ChessEngine.board.player.BlackPlayer;
+import ChessEngine.board.player.Player;
 import ChessEngine.board.player.WhitePlayer;
 import ChessEngine.piece.*;
 import com.google.common.collect.ImmutableList;
@@ -36,6 +37,21 @@ public class Board {
             legalMoves.addAll(piece.calcLegalMoves(this));
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+
+    public Player blackPlayer(){
+        return this.blackPlayer;
+    }
+    public Player whitePlayer(){
+        return this.whitePlayer;
+    }
+    public Collection<Piece> getBlackPiece(){
+        return this.blackPiece;
+    }
+
+    public Collection<Piece> getWhitePiece(){
+        return this.whitePiece;
     }
 
     public Collection<Piece> calcActivePieces(final List<Tile> gameBoard, final Alliance color){

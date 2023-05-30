@@ -15,7 +15,7 @@ public class Queen extends Piece{
 
     private final static int[] MOVE_VECTOR_COORDS = {-8,-1,1,8,-7,7,-9,9};
     public Queen(int piecePos, Alliance pieceAll) {
-        super(piecePos, pieceAll);
+        super(PieceType.QUEEN, piecePos, pieceAll);
     }
 
     @Override

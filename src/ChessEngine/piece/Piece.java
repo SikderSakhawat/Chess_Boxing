@@ -8,15 +8,21 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class Piece {
+    protected final PieceType pieceType;
     protected final int piecePosition;
     protected final Alliance piecedAlliance;
     protected final boolean isFirstMove;
     // Alliance used for pieces is going to be helpful for players as well
-    public Piece(final int piecePos, final Alliance pieceAll){
+    public Piece(final PieceType pieceType, final int piecePos, final Alliance pieceAll){
         this.piecedAlliance = pieceAll;
         this.piecePosition = piecePos;
         // TODO more work!!
         this.isFirstMove = false;
+        this.pieceType = pieceType;
+    }
+
+    public PieceType getPieceType(){
+        return this.pieceType;
     }
 
     public int getPiecePosition(){
@@ -34,12 +40,36 @@ public abstract class Piece {
     public abstract Collection<Move> calcLegalMoves(final Board board);
 
     public enum PieceType{
-        PAWN("P"),
-        KNIGHT("N"),
-        BISHOP("B"),
-        ROOK("R"),
-        KING("K"),
-        QUEEN("Q");
+        PAWN("P") {
+            public boolean isKing() {
+                return false;
+            }
+        },
+        KNIGHT("N") {
+            public boolean isKing() {
+                return false;
+            }
+        },
+        BISHOP("B") {
+            public boolean isKing() {
+                return false;
+            }
+        },
+        ROOK("R") {
+            public boolean isKing() {
+                return false;
+            }
+        },
+        KING("K") {
+            public boolean isKing() {
+                return true;
+            }
+        },
+        QUEEN("Q") {
+            public boolean isKing() {
+                return false;
+            }
+        };
 
         private String pieceName;
         PieceType(final String pieceName){
@@ -50,5 +80,8 @@ public abstract class Piece {
         public String toString(){
             return this.pieceName;
         }
+
+        public abstract boolean isKing();
     }
 }
+
