@@ -16,8 +16,9 @@ public class Board {
 
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
-    private Board(Builder builder){
+    private Board(final Builder builder){
         this.gameBoard = createGameBoard(builder);
         this.whitePiece = calcActivePieces(this.gameBoard, Alliance.WHITE);
         this.blackPiece = calcActivePieces(this.gameBoard, Alliance.BLACK);
@@ -27,6 +28,7 @@ public class Board {
 
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer,this.blackPlayer);
     }
 
     // allows for the collection of all legal moves for each piece
@@ -45,6 +47,9 @@ public class Board {
     }
     public Player whitePlayer(){
         return this.whitePlayer;
+    }
+    public Player currentPlayer(){
+        return this.currentPlayer;
     }
     public Collection<Piece> getBlackPiece(){
         return this.blackPiece;
