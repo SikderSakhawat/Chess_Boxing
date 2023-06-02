@@ -218,15 +218,29 @@ public abstract class Move {
     public static abstract class KingsideCastleMove extends CastleMove{
         public KingsideCastleMove(final Board board,
                           final Piece piece,
-                          final int destinationCoord) {
-            super(board, piece, destinationCoord);
+                          final int destinationCoord,
+                          final Rook castleRook,
+                          final int castleRookStart,
+                          final int castleRookDestination) {
+            super(board, piece, destinationCoord, castleRook, castleRookStart, castleRookDestination);
+        }
+
+        public String toString(){
+           return "O-O";
         }
     }
     public static abstract class QueensideCastleMove extends CastleMove{
         public QueensideCastleMove(final Board board,
                           final Piece piece,
-                          final int destinationCoord) {
-            super(board, piece, destinationCoord);
+                          final int destinationCoord,
+                          final Rook castleRook,
+                          final int castleRookStart,
+                          final int castleRookDestination) {
+            super(board, piece, destinationCoord, castleRook, castleRookStart, castleRookDestination);
+        }
+
+        public String toString(){
+            return "O-O-O";
         }
     }
 
