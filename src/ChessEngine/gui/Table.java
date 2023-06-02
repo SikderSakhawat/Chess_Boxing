@@ -1,3 +1,4 @@
+
 package ChessEngine.gui;
 
 import ChessEngine.board.BoardUtility;
@@ -45,6 +46,14 @@ public class Table {
             }
         });
         fileMenu.add(openPGN);
+        final JMenuItem exitJMenuItem = new JMenuItem("Exit");
+        exitJMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitJMenuItem);
         return fileMenu;
     }
 
@@ -75,9 +84,9 @@ public class Table {
         }
 
         private void assignTileColor() {
-            if(BoardUtility.FIRST_ROW[this.tileID] || BoardUtility.THIRD_ROW[this.tileID] || BoardUtility.FIFTH_ROW[this.tileID] || BoardUtility.SEVENTH_ROW[this.tileID]) {
+            if(BoardUtility.EIGHTH_RANK[this.tileID] || BoardUtility.SIXTH_RANK[this.tileID] || BoardUtility.FOURTH_RANK[this.tileID] || BoardUtility.SECOND_RANK[this.tileID]) {
                 setBackground(this.tileID % 2 == 0 ? lightTileColor : darkTileColor);
-            } else if (BoardUtility.SECOND_ROW[this.tileID] || BoardUtility.FOURTH_ROW[this.tileID] || BoardUtility.SIXTH_ROW[this.tileID] || BoardUtility.EIGHTH_ROW[this.tileID]) {
+            } else if (BoardUtility.SEVENTH_RANK[this.tileID] || BoardUtility.FIFTH_RANK[this.tileID] || BoardUtility.THIRD_RANK[this.tileID] || BoardUtility.FIRST_RANK[this.tileID]) {
                 setBackground(this.tileID % 2 != 0 ? lightTileColor : darkTileColor);
             }
         }

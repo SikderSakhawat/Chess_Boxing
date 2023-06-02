@@ -1,5 +1,6 @@
-package ChessEngine.board;
+package ChessEngine.player;
 
+import ChessEngine.board.Board;
 import ChessEngine.piece.Pawn;
 import ChessEngine.piece.Piece;
 import ChessEngine.piece.Rook;

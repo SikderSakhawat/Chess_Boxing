@@ -2,10 +2,9 @@ package ChessEngine.piece;
 
 import ChessEngine.Alliance;
 import ChessEngine.board.Board;
-import ChessEngine.board.Move;
+import ChessEngine.player.Move;
 
 import java.util.Collection;
-import java.util.List;
 
 public abstract class Piece {
     protected final PieceType pieceType;

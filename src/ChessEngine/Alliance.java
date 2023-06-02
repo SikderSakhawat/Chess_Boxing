@@ -1,8 +1,8 @@
 package ChessEngine;
 
-import ChessEngine.board.player.BlackPlayer;
-import ChessEngine.board.player.Player;
-import ChessEngine.board.player.WhitePlayer;
+import ChessEngine.player.BlackPlayer;
+import ChessEngine.player.Player;
+import ChessEngine.player.WhitePlayer;
 
 public enum Alliance {
     // there is only two instance that we need to keep in check: white and black, these can be modified with their behavior

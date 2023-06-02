@@ -1,4 +1,4 @@
-package ChessEngine.board.player;
+package ChessEngine.player;
 
 public enum MoveStatus {
     DONE{

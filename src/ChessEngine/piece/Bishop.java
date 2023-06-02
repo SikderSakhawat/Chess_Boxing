@@ -2,7 +2,7 @@ package ChessEngine.piece;
 import ChessEngine.Alliance;
 import ChessEngine.board.Board;
 import ChessEngine.board.BoardUtility;
-import ChessEngine.board.Move;
+import ChessEngine.player.Move;
 import ChessEngine.board.Tile;
 import com.google.common.collect.ImmutableList;
 

@@ -1,9 +1,10 @@
 package ChessEngine.board;
 
 import ChessEngine.Alliance;
-import ChessEngine.board.player.BlackPlayer;
-import ChessEngine.board.player.Player;
-import ChessEngine.board.player.WhitePlayer;
+import ChessEngine.player.BlackPlayer;
+import ChessEngine.player.Move;
+import ChessEngine.player.Player;
+import ChessEngine.player.WhitePlayer;
 import ChessEngine.piece.*;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;

@@ -1,8 +1,7 @@
-package ChessEngine.board.player;
+package ChessEngine.player;
 
 import ChessEngine.Alliance;
 import ChessEngine.board.Board;
-import ChessEngine.board.Move;
 import ChessEngine.piece.King;
 import ChessEngine.piece.Piece;
 import com.google.common.collect.ImmutableList;
@@ -17,16 +16,21 @@ public abstract class Player {
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     private final boolean isInCheck;
-
+    public boolean isMoveLegal(final Move move){
+        return this.legalMoves.contains(move);
+    }
+    public abstract Collection<Piece> getActivePieces();
+    public abstract Alliance getAlliance();
+    public abstract Player getOpponent();
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals);
     Player(final Board board,
            final Collection<Move> legalMoves,
            final Collection<Move> opponentMoves) {
         this.board = board;
         this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calculateKingCastles(legalMoves,opponentMoves)));
-        this.playerKing = makeKing();
+        this.playerKing = makeKing(); // todo figure out why this turns null
         this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
     }
-
     public King getPlayerKing(){
         return this.playerKing;
     }
@@ -54,15 +58,6 @@ public abstract class Player {
         }
         throw new RuntimeException("Not a valid board");
     }
-
-    public boolean isMoveLegal(final Move move){
-        return this.legalMoves.contains(move);
-    }
-    public abstract Collection<Piece> getActivePieces();
-    public abstract Alliance getAlliance();
-    public abstract Player getOpponent();
-    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals);
-
     public boolean isChecked(){return this.isInCheck;}
 
     protected boolean hasEscapeMoves(){
@@ -77,7 +72,7 @@ public abstract class Player {
     public boolean isMated(){return this.isInCheck && !hasEscapeMoves();}
     public boolean isStaleMated(){return !this.isInCheck && !hasEscapeMoves();}
 
-    // TODO implement these methods in the future
+    // TODO implement this method in the future
     public boolean isCastled(){return false;}
     public MoveTransition makeMove(final Move move) {
         if (!isMoveLegal(move)) {

@@ -1,7 +1,6 @@
-package ChessEngine.board.player;
+package ChessEngine.player;
 
 import ChessEngine.board.Board;
-import ChessEngine.board.Move;
 
 import java.util.concurrent.CompletableFuture;
 
