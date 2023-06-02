@@ -63,6 +63,11 @@ public class Pawn extends Piece{
         return ImmutableList.copyOf(legalMoves);
     }
 
+    @Override
+    public Pawn movePiece(Move move) {
+        return new Pawn(move.getDestinationCoord(), move.getMovePiece().getPiecedAlliance());
+    }
+
     // TODO Case when En Passant happens
 
     public String toString(){

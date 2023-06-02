@@ -34,7 +34,7 @@ public abstract class Player {
     }
     // This will help us final all the moves that can attack the kings position so that the king won't be able to move there in
     // its set of legal moves
-    private static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
+    protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
         final List<Move> attackMoves= new ArrayList<>();
         for(final Move move : moves){
             if(piecePosition == move.getDestinationCoord()){
@@ -60,6 +60,7 @@ public abstract class Player {
     public abstract Collection<Piece> getActivePieces();
     public abstract Alliance getAlliance();
     public abstract Player getOpponent();
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals);
 
     public boolean isChecked(){return this.isInCheck;}
 
@@ -77,8 +78,8 @@ public abstract class Player {
 
     // TODO implement these methods in the future
     public boolean isCastled(){return false;}
-    public MoveTransition makeMove(final Move move){
-        if(!isMoveLegal(move)){
+    public MoveTransition makeMove(final Move move) {
+        if (!isMoveLegal(move)) {
             return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
         }
         final Board transBoard = move.execute();
@@ -86,13 +87,13 @@ public abstract class Player {
         // and save those values into a list
         final Collection<Move> kingAttacks = Player.calculateAttacksOnTile
                 (transBoard
-                .currentPlayer().
-                getOpponent().
-                getPlayerKing().
-                getPiecePosition(), transBoard.currentPlayer().getLegalMoves());
+                        .currentPlayer().
+                        getOpponent().
+                        getPlayerKing().
+                        getPiecePosition(), transBoard.currentPlayer().getLegalMoves());
         // returns a new board that can check if there are attacks on king, and if there are we can't make that move
         // this helps with a piece being pinned to a king.
-        if(!kingAttacks.isEmpty())
+        if (!kingAttacks.isEmpty())
             return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
         return new MoveTransition(transBoard, move, MoveStatus.DONE);
     }

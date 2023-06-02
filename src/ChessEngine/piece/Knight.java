@@ -46,6 +46,11 @@ public class Knight extends Piece{
         return ImmutableList.copyOf(legalMoves);
     }
 
+    @Override
+    public Knight movePiece(Move move) {
+        return new Knight(move.getDestinationCoord(), move.getMovePiece().getPiecedAlliance());
+    }
+
     // edge cases where knight cannot move & would result in a wrong placement of the knight
     private static boolean isFirstColExclude(final int currentPos, final int candidateOffset){
         return BoardUtility.FIRST_COLUMN[currentPos] && ((candidateOffset == -17) ||

@@ -6,6 +6,7 @@ import ChessEngine.board.player.Player;
 import ChessEngine.board.player.WhitePlayer;
 import ChessEngine.piece.*;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.*;
 
@@ -127,6 +128,10 @@ public class Board {
         return builder.build(); // the board you see in chess initially
     }
 
+    public Iterable<Move> getAllLegalMoves() {
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(), this.blackPlayer.getLegalMoves()));
+    }
+
 
     // this class will help us "build" an instance of the pieces onto our tiles, so our game board can have the correct pieces set up
     public static class Builder{
@@ -134,6 +139,7 @@ public class Board {
         //builds instance of Board that can be used
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
+        Pawn enPassantPawn;
 
         public Builder(){
             this.boardConfig = new HashMap<>();
@@ -148,6 +154,10 @@ public class Board {
         }
         public Board build(){
             return new Board(this);
+        }
+
+        public void setEnPassantPawn(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
         }
     }
 
