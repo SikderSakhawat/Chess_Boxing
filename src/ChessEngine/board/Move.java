@@ -215,7 +215,7 @@ public abstract class Move {
         }
     }
 
-    public static abstract class KingsideCastleMove extends CastleMove{
+    public static class KingsideCastleMove extends CastleMove{
         public KingsideCastleMove(final Board board,
                           final Piece piece,
                           final int destinationCoord,
@@ -229,7 +229,7 @@ public abstract class Move {
            return "O-O";
         }
     }
-    public static abstract class QueensideCastleMove extends CastleMove{
+    public static class QueensideCastleMove extends CastleMove{
         public QueensideCastleMove(final Board board,
                           final Piece piece,
                           final int destinationCoord,

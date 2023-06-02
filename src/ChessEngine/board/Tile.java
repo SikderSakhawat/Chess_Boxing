@@ -33,6 +33,9 @@ public abstract class Tile {
     // Methods will get defined in a subclass where these tiles have
     public abstract boolean isOccupied();
     public abstract Piece getPiece();
+    public int getTileCoord(){
+        return this.tileCoord;
+    }
     public String toString(){
         return "-";
     }

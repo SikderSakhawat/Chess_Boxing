@@ -6,6 +6,7 @@ import ChessEngine.board.Move;
 import ChessEngine.piece.King;
 import ChessEngine.piece.Piece;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +22,7 @@ public abstract class Player {
            final Collection<Move> legalMoves,
            final Collection<Move> opponentMoves) {
         this.board = board;
-        this.legalMoves = legalMoves;
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calculateKingCastles(legalMoves,opponentMoves)));
         this.playerKing = makeKing();
         this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
     }
@@ -45,13 +46,13 @@ public abstract class Player {
     }
 
     // makes sure that each side has a King to play with
-    private King makeKing() {
-        for(final Piece piece : this.getActivePieces()){
-            if(piece.getPieceType().isKing()){
+    protected King makeKing() {
+        for (final Piece piece : getActivePieces()) {
+            if (piece.getPieceType().isKing()) {
                 return (King) piece;
             }
         }
-        throw new RuntimeException("Shouldn't be here! Board does not exist!");
+        throw new RuntimeException("Not a valid board");
     }
 
     public boolean isMoveLegal(final Move move){
