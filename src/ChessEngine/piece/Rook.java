@@ -15,8 +15,11 @@ public class Rook extends Piece{
 
     private final static int[] MOVE_VECTOR_COORDS = {-8,-1,1,8};
 
-    public Rook(int piecePos, Alliance pieceAll) {
-        super(PieceType.ROOK, piecePos, pieceAll);
+    public Rook(int piecePos, Alliance pieceAll){
+        super(PieceType.BISHOP, piecePos, pieceAll, true);
+    }
+    public Rook(int piecePos, Alliance pieceAll, final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
     }
 
     @Override

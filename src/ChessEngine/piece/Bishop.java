@@ -13,7 +13,10 @@ public class Bishop extends Piece {
 
     private final static int[] MOVE_VECTOR_COORDS = {-9,7,7,9};
     public Bishop(int piecePos, Alliance pieceAll){
-        super(PieceType.BISHOP, piecePos, pieceAll);
+        super(PieceType.BISHOP, piecePos, pieceAll, true);
+    }
+    public Bishop(int piecePos, Alliance pieceAll, final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
     }
 
     @Override

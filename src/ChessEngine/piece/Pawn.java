@@ -12,8 +12,11 @@ import java.util.List;
 import static ChessEngine.player.Move.*;
 public class Pawn extends Piece{
     private static final int[] CANDIDATE_MOVE_COORD = {8,16, 7 ,9};
-    public Pawn(final int piecePos, final Alliance pieceAll) {
-        super(PieceType.PAWN, piecePos, pieceAll);
+    public Pawn(int piecePos, Alliance pieceAll){
+        super(PieceType.BISHOP, piecePos, pieceAll, true);
+    }
+    public Pawn(int piecePos, Alliance pieceAll, final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
     }
 
     @Override
@@ -30,12 +33,12 @@ public class Pawn extends Piece{
                 // TODO more things here (work on pawn promotion)!
                 legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoord));
             // handles the pawn jump from either 1 or 2 squares
-            } else if(offset == 16 && this.isFirstMove() && (BoardUtility.SEVENTH_RANK[this.piecePosition]
+            } else if(offset == 16 && this.isFirstMove() && ((BoardUtility.SEVENTH_RANK[this.piecePosition]
                     && this.getPiecedAlliance().isBlack()) || (BoardUtility.SECOND_RANK[this.piecePosition]
-                    && this.getPiecedAlliance().isWhite())){
+                    && this.getPiecedAlliance().isWhite()))){
                 final int behindDestinationCoord = this.piecePosition + (this.piecedAlliance.getDirection() * 8);
                 if(!board.getTile(behindDestinationCoord).isOccupied() && !board.getTile(candidateDestinationCoord).isOccupied()){
-                    legalMoves.add(new MajorMove(board, this, candidateDestinationCoord));
+                    legalMoves.add(new PawnJump(board, this, candidateDestinationCoord));
                 }
                 // case where we attack the piece to our right diagonal from us
             } else if (offset == 7 &&
@@ -45,7 +48,7 @@ public class Pawn extends Piece{
                     final Piece pieceOnCandidate = board.getTile(candidateDestinationCoord).getPiece();
                     if(this.piecedAlliance !=  pieceOnCandidate.getPiecedAlliance()){
                         // TODO more (the case when we attack a piece and get into promotion)!
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoord));
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoord, pieceOnCandidate));
                     }
                 }
             } else if (offset == 9 &&
@@ -55,7 +58,7 @@ public class Pawn extends Piece{
                     final Piece pieceOnCandidate = board.getTile(candidateDestinationCoord).getPiece();
                     if(this.piecedAlliance !=  pieceOnCandidate.getPiecedAlliance()){
                         // TODO more (the case when we attack a piece and get into promotion)!
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoord));
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoord, pieceOnCandidate));
                     }
                 }
             }

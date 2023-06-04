@@ -14,8 +14,11 @@ import java.util.List;
 public class Queen extends Piece{
 
     private final static int[] MOVE_VECTOR_COORDS = {-8,-1,1,8,-7,7,-9,9};
-    public Queen(int piecePos, Alliance pieceAll) {
-        super(PieceType.QUEEN, piecePos, pieceAll);
+    public Queen(int piecePos, Alliance pieceAll){
+        super(PieceType.BISHOP, piecePos, pieceAll, true);
+    }
+    public Queen(int piecePos, Alliance pieceAll, final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
     }
 
     @Override

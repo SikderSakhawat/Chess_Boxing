@@ -27,6 +27,8 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class Table {
     private final JFrame gameFrame;
+    private GameHistory gameHistoryPanel;
+    private final TakenPiecePanel takenPiecePanel;
     private final BoardPanel boardPanel;
     public Board chessBoard;
 
@@ -35,6 +37,7 @@ public class Table {
     private Piece manMovedPiece;
     private BoardDirection boardDirection;
     private boolean highlightLegalMoves;
+    private MoveLog moveLog;
     private final Color lightTileColor = Color.decode("#eeeed2");
     private final Color darkTileColor = Color.decode("#769656");
     private final static Dimension BOARD_PANEL_SIZE = new Dimension(400, 350);
@@ -50,9 +53,14 @@ public class Table {
         this.gameFrame.setSize(FRAME_DIMENSIONS);
         this.boardPanel = new BoardPanel();
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
+        this.takenPiecePanel = new TakenPiecePanel();
+        this.gameHistoryPanel = new GameHistory();
+        this.gameFrame.add(this.takenPiecePanel, BorderLayout.WEST);
+        this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.setVisible(true);
         this.boardDirection = BoardDirection.NORMAL;
         this.highlightLegalMoves = false;
+        this.moveLog = new MoveLog();
     }
 
     private JMenuBar createTableMenuBar() {
@@ -134,6 +142,19 @@ public class Table {
         }
     }
 
+    // shows all the moves that were done in the GUI (ex. A8 = 0, E5 = 44, etc.)
+    public static class MoveLog{
+        private final List<Move> moves;
+        public MoveLog(){this.moves = new ArrayList<>();}
+        public List<Move> getMoves(){return this.moves;}
+        public void addMove(final Move move){this.moves.add(move);}
+        public int size(){return this.moves.size();}
+        public void clear(){this.moves.clear();}
+        public Move removeMove(int index){return this.moves.remove(index);}
+        public boolean removeMove(final Move move){return this.moves.remove(move);}
+
+    }
+
     private class TilePanel extends JPanel{
         private final int tileID;
         public TilePanel(final BoardPanel boardPanel, final int tileID){
@@ -162,7 +183,10 @@ public class Table {
                             destinationTile = chessBoard.getTile(tileID);
                             final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoord(), destinationTile.getTileCoord());
                             final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
-                            if(transition.getMoveStatus.isDone()) chessBoard = transition.getTransBoard();
+                            if(transition.getMoveStatus.isDone()){
+                                chessBoard = transition.getTransBoard();
+                                moveLog.addMove(move);
+                            }
                             // todo add move that was made to moveLog
                         }
                         // after move selection we are back to not selecting a move
@@ -173,6 +197,8 @@ public class Table {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
+                            gameHistoryPanel.redo(chessBoard, moveLog);
+                            takenPiecePanel.redo(moveLog);
                             boardPanel.drawBoard(chessBoard);
                         }
                     });
@@ -212,7 +238,7 @@ public class Table {
                 for(final Move move : piecesLegalMoves(board)){
                     if(move.getDestinationCoord() == this.tileID){
                         try{
-                            add(new JLabel(new ImageIcon(ImageIO.read(new File("Chess Boxing/ChessPieceFiles/green_dot.png")))));
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File("ChessBoxing/ChessPieceFiles/green_dot.png")))));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

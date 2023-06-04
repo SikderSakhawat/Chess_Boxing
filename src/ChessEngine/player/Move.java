@@ -1,14 +1,16 @@
 package ChessEngine.player;
 
 import ChessEngine.board.Board;
+import ChessEngine.board.BoardUtility;
 import ChessEngine.piece.Pawn;
 import ChessEngine.piece.Piece;
 import ChessEngine.piece.Rook;
 
 public abstract class Move {
-    final Board board;
-    final Piece movePiece;
-    final int destinationCoord;
+    protected final Board board;
+    protected final Piece movePiece;
+    protected final int destinationCoord;
+    protected final boolean isFirstMove;
     public static final Move NULL_MOVE = new CastleMove.NullMove();
 
     public Move(final Board board,
@@ -17,14 +19,23 @@ public abstract class Move {
         this.board = board;
         this.movePiece = piece;
         this.destinationCoord = destinationCoord;
+        this.isFirstMove = movePiece.isFirstMove();
+    }
+
+    private Move(final Board board, final int destinationCoord){
+        this.board = board;
+        this.destinationCoord = destinationCoord;
+        this.movePiece = null;
+        this.isFirstMove = false;
     }
 
     @Override
     public int hashCode(){
         final int prime = 31;
         int result = 1;
-        result = prime + this.movePiece.getPiecePosition();
+        result = prime * result + this.destinationCoord;
         result = prime * result + this.movePiece.hashCode();
+        result = prime * result + this.movePiece.getPiecePosition();
         return result;
     }
 
@@ -37,7 +48,8 @@ public abstract class Move {
             return false;
         }
         final Move otherMove = (Move) other;
-        return getDestinationCoord() == otherMove.getDestinationCoord() &&
+        return getCurrentCoord() == otherMove.getCurrentCoord() &&
+                getDestinationCoord() == otherMove.getDestinationCoord() &&
                 getMovePiece().equals(otherMove.getMovePiece());
     }
 
@@ -71,7 +83,6 @@ public abstract class Move {
         final Board.Builder builder = new Board.Builder();
         // for loops just check if an active piece changed locations or not from a previous board
         for(final Piece piece : this.board.currentPlayer().getActivePieces()){
-            // TODO hashcode for pieces to help make the search for pieces possible
             if(!this.movePiece.equals(piece)){
                 builder.setPiece(piece);
             }
@@ -91,6 +102,14 @@ public abstract class Move {
                          final Piece piece,
                          final int destinationCoord) {
             super(board, piece, destinationCoord);
+        }
+
+        public boolean equals(Object other){
+            return this == other || other instanceof MajorMove && super.equals(other);
+        }
+
+        public String toString(){
+            return movePiece.getPieceType().toString() + BoardUtility.getPosAtCoord(this.destinationCoord);
         }
 
     }
@@ -247,7 +266,7 @@ public abstract class Move {
 
     public static final class NullMove extends Move{
         public NullMove() {
-            super(null, null, -1);
+            super(null, -1);
         }
 
         @Override

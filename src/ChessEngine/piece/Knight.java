@@ -11,8 +11,11 @@ import java.util.Collection;
 import java.util.List;
 public class Knight extends Piece{
     private final static int[] CANDIDATE_MOVE_COORDS = {-17,-15,-10,-6,6,10,15,17};
-    public Knight(final int piecePos, final Alliance pieceAll) {
-        super(PieceType.KNIGHT, piecePos, pieceAll);
+    public Knight(int piecePos, Alliance pieceAll){
+        super(PieceType.BISHOP, piecePos, pieceAll, true);
+    }
+    public Knight(int piecePos, Alliance pieceAll, final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
     }
 
     @Override

@@ -16,8 +16,11 @@ import java.util.List;
 public class King extends Piece {
 
     private static final int[] CANDIDATE_LEGAL_MOVES = {-9,-8,-7,-1,1,7,8,9};
-    public King(final int piecePos, final Alliance pieceAll) {
-        super(PieceType.KING, piecePos, pieceAll);
+    public King(int piecePos, Alliance pieceAll){
+        super(PieceType.BISHOP, piecePos, pieceAll, true);
+    }
+    public King(int piecePos, Alliance pieceAll, final boolean isFirstMove){
+        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
     }
 
     @Override
