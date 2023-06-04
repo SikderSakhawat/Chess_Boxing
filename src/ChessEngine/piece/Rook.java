@@ -52,7 +52,7 @@ public class Rook extends Piece{
 
     @Override
     public Rook movePiece(Move move) {
-        return new Rook(move.getDestinationCoord(), move.getMovePiece().getPiecedAlliance());
+        return new Rook(move.getDestinationCoord(), move.getMovedPiece().getPiecedAlliance());
     }
 
     private boolean isFirstColExclude(int currentPos, int candidateOffset) {

@@ -68,7 +68,7 @@ public class Pawn extends Piece{
 
     @Override
     public Pawn movePiece(Move move) {
-        return new Pawn(move.getDestinationCoord(), move.getMovePiece().getPiecedAlliance());
+        return new Pawn(move.getDestinationCoord(), move.getMovedPiece().getPiecedAlliance());
     }
 
     // TODO Case when En Passant happens

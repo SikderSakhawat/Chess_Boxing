@@ -1,5 +1,8 @@
 package ChessEngine.board;
 
+import com.google.common.collect.ImmutableMap;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class BoardUtility {
@@ -53,7 +56,7 @@ public class BoardUtility {
        return POSITION_TO_COORD.get(position);
     }
 
-    public static int getPosAtCoord(final int coordinate){
+    public static String getPosAtCoord(final int coordinate){
         return ALGEBRAIC_NOTATION[coordinate];
     }
     private static String[] initAlgebraicNotation() {
@@ -71,6 +74,10 @@ public class BoardUtility {
     }
 
     public static Map<String, Integer> initPosToCoordMap(){
-
+        final Map<String, Integer> posToCoord = new HashMap<>();
+        for(int i = 0; i < NUM_TILES; i++){
+            posToCoord.put(ALGEBRAIC_NOTATION[i],i);
+        }
+        return ImmutableMap.copyOf(posToCoord);
     }
 }

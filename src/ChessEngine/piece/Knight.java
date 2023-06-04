@@ -51,7 +51,7 @@ public class Knight extends Piece{
 
     @Override
     public Knight movePiece(Move move) {
-        return new Knight(move.getDestinationCoord(), move.getMovePiece().getPiecedAlliance());
+        return new Knight(move.getDestinationCoord(), move.getMovedPiece().getPiecedAlliance());
     }
 
     // edge cases where knight cannot move & would result in a wrong placement of the knight
