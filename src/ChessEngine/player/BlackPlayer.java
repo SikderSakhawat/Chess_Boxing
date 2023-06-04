@@ -37,13 +37,13 @@ public class BlackPlayer extends Player {
     @Override
     protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegals, final Collection<Move> opponentLegals) {
         final List<Move> kingCastles = new ArrayList<>();
-        if(this.playerKing.isFirstMove() && !this.isChecked()){
+        if(this.playerKing.isFirstMove() && !this.isInCheck()){
             // kingside castle for black
             if(!this.board.getTile(5).isOccupied() && !this.board.getTile(6).isOccupied()){
                 final Tile rookTile = this.board.getTile(7); // checks if tiles between king and rook are clear
                 if(rookTile.isOccupied() && rookTile.getPiece().isFirstMove()){ // checks if there is a rook that hasn't moved
-                    if(Player.calculateAttacksOnTile(5, opponentLegals).isEmpty() &&
-                            Player.calculateAttacksOnTile(6, opponentLegals).isEmpty() &&
+                    if(Player.calcAttacksOnTile(5, opponentLegals).isEmpty() &&
+                            Player.calcAttacksOnTile(6, opponentLegals).isEmpty() &&
                             rookTile.getPiece().getPieceType().isRook()){
                         kingCastles.add(new Move.KingsideCastleMove(this.board, this.playerKing, 6,(Rook) rookTile.getPiece(),rookTile.getTileCoord(), 5 ));
                     }
@@ -56,8 +56,8 @@ public class BlackPlayer extends Player {
                 final Tile rookTile = this.board.getTile(0);
                 if(rookTile.isOccupied() &&
                         rookTile.getPiece().isFirstMove() &&
-                        Player.calculateAttacksOnTile(2,opponentLegals).isEmpty() &&
-                        Player.calculateAttacksOnTile(3,opponentLegals).isEmpty() &&
+                        Player.calcAttacksOnTile(2,opponentLegals).isEmpty() &&
+                        Player.calcAttacksOnTile(3,opponentLegals).isEmpty() &&
                 rookTile.getPiece().getPieceType().isRook()){
                     kingCastles.add(new Move.QueensideCastleMove(this.board, this.playerKing, 2,(Rook) rookTile.getPiece(),rookTile.getTileCoord(), 3));
                 }

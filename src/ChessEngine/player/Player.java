@@ -12,86 +12,113 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class Player {
+
     protected final Board board;
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     private final boolean isInCheck;
-    public boolean isMoveLegal(final Move move){
-        return this.legalMoves.contains(move);
-    }
-    public abstract Collection<Piece> getActivePieces();
-    public abstract Alliance getAlliance();
-    public abstract Player getOpponent();
-    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentLegals);
+
     Player(final Board board,
            final Collection<Move> legalMoves,
            final Collection<Move> opponentMoves) {
         this.board = board;
-        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calculateKingCastles(legalMoves,opponentMoves)));
-        this.playerKing = makeKing(); // todo figure out why this turns null
-        this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
+        this.playerKing = establishKing();
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves,
+                calculateKingCastles(legalMoves, opponentMoves)));
+        this.isInCheck = !Player.calcAttacksOnTile(this.playerKing.getPiecePosition(),
+                opponentMoves).isEmpty();
     }
-    public King getPlayerKing(){
+
+    public King getPlayerKing() {
         return this.playerKing;
     }
-    public Collection<Move> getLegalMoves(){
+
+    public Collection<Move> getLegalMoves() {
         return this.legalMoves;
     }
-    // This will help us final all the moves that can attack the kings position so that the king won't be able to move there in
-    // its set of legal moves
-    protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
-        final List<Move> attackMoves= new ArrayList<>();
-        for(final Move move : moves){
-            if(piecePosition == move.getDestinationCoord()){
+
+    protected static Collection<Move> calcAttacksOnTile(int piecePosition,
+                                                        Collection<Move> moves) {
+        final List<Move> attackMoves = new ArrayList<>();
+        for (final Move move : moves) {
+            if (piecePosition == move.getDestinationCoord()) {
                 attackMoves.add(move);
             }
         }
         return ImmutableList.copyOf(attackMoves);
     }
 
-    // makes sure that each side has a King to play with
-    protected King makeKing() {
+    private King establishKing() {
         for (final Piece piece : getActivePieces()) {
             if (piece.getPieceType().isKing()) {
                 return (King) piece;
             }
         }
-        throw new RuntimeException("Not a valid board");
+        throw new RuntimeException("Should not reach here. Invalid board");
     }
-    public boolean isChecked(){return this.isInCheck;}
 
-    protected boolean hasEscapeMoves(){
-        for(final Move move : this.legalMoves){
+    public boolean isMoveLegal(final Move move) {
+        return this.legalMoves.contains(legalMoves);
+    }
+
+    //all end game possibilities
+    public boolean isInCheck() {
+        return this.isInCheck;
+    }
+
+    public boolean isInCheckMate() {
+        return this.isInCheck && !hasEscapeMoves();
+    }
+
+    public boolean isInStaleMate() {
+        return !this.isInCheck && !hasEscapeMoves();
+    }
+
+    //method to see if king is able to move at any given time.
+    protected boolean hasEscapeMoves() {
+        for (final Move move : this.legalMoves) {
             final MoveTransition transition = makeMove(move);
-            if(transition.getMoveStatus.isDone()){
+
+            if (transition.getMoveStatus().isDone()) {
                 return true;
             }
         }
         return false;
     }
-    public boolean isMated(){return this.isInCheck && !hasEscapeMoves();}
-    public boolean isStaleMated(){return !this.isInCheck && !hasEscapeMoves();}
 
-    // TODO implement this method in the future
-    public boolean isCastled(){return false;}
+    //
+    //Game strategy possibilities
+    public boolean isCastled() {
+        return false;
+    }
+
+    //
     public MoveTransition makeMove(final Move move) {
+
         if (!isMoveLegal(move)) {
             return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
         }
-        final Board transBoard = move.execute();
-        // Passes opponent king's position after we make a move to check the moves that attack our king
-        // and save those values into a list
-        final Collection<Move> kingAttacks = Player.calculateAttacksOnTile
-                (transBoard
-                        .currentPlayer().
-                        getOpponent().
-                        getPlayerKing().
-                        getPiecePosition(), transBoard.currentPlayer().getLegalMoves());
-        // returns a new board that can check if there are attacks on king, and if there are we can't make that move
-        // this helps with a piece being pinned to a king.
-        if (!kingAttacks.isEmpty())
+
+        final Board transitionBoard = move.execute();
+
+        final Collection<Move> kingAttacks = Player.calcAttacksOnTile(transitionBoard.currentPlayer()
+                        .getOpponent().getPlayerKing().getPiecePosition(),
+                transitionBoard.currentPlayer().getLegalMoves());
+
+        if (!kingAttacks.isEmpty()) {
             return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
-        return new MoveTransition(transBoard, move, MoveStatus.DONE);
+        }
+
+        return new MoveTransition(transitionBoard, move, MoveStatus.DONE);
     }
+
+    public abstract Collection<Piece> getActivePieces();
+
+    public abstract Alliance getAlliance();
+
+    public abstract Player getOpponent();
+
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegals,
+                                                             Collection<Move> opponentsLegals);
 
 }

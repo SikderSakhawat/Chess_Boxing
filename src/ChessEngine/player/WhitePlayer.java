@@ -38,13 +38,13 @@ public class WhitePlayer extends Player {
     protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegals,
                                                     final Collection<Move> opponentsLegals) {
         final List<Move> kingCastles = new ArrayList<>();
-        if (this.playerKing.isFirstMove() && this.playerKing.getPiecePosition() == 60 && !this.isChecked()) {
+        if (this.playerKing.isFirstMove() && this.playerKing.getPiecePosition() == 60 && !this.isInCheck()) {
             //whites kingside castle
             if (!this.board.getTile(61).isOccupied() && !this.board.getTile(62).isOccupied()) {
                 final Tile rookTile = this.board.getTile(63);
                 if (rookTile.isOccupied() && rookTile.getPiece().isFirstMove()) {
-                    if (Player.calculateAttacksOnTile(61, opponentsLegals).isEmpty() &&
-                            Player.calculateAttacksOnTile(62, opponentsLegals).isEmpty() &&
+                    if (Player.calcAttacksOnTile(61, opponentsLegals).isEmpty() &&
+                            Player.calcAttacksOnTile(62, opponentsLegals).isEmpty() &&
                             rookTile.getPiece().getPieceType().isRook()) {
                         kingCastles.add(new Move.KingsideCastleMove(this.board,
                                 this.playerKing,
@@ -63,8 +63,8 @@ public class WhitePlayer extends Player {
                 final Tile rookTile = this.board.getTile(56);
                 if (rookTile.isOccupied() &&
                         rookTile.getPiece().isFirstMove() &&
-                Player.calculateAttacksOnTile(58, opponentsLegals).isEmpty() &&
-                Player.calculateAttacksOnTile(59, opponentsLegals).isEmpty() &&
+                Player.calcAttacksOnTile(58, opponentsLegals).isEmpty() &&
+                Player.calcAttacksOnTile(59, opponentsLegals).isEmpty() &&
                 rookTile.getPiece().getPieceType().isRook()) {
                     kingCastles.add(new Move.QueensideCastleMove(this.board,
                             this.playerKing,
