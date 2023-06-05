@@ -1,83 +1,130 @@
 package ChessEngine.board;
 
-import com.google.common.collect.ImmutableMap;
+import ChessEngine.piece.King;
+import ChessEngine.piece.Piece;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class BoardUtility {
+public enum  BoardUtility {
 
-    public static final boolean[] FIRST_COLUMN = initColumn(0);
-    public static final boolean[] SECOND_COLUMN = initColumn(1);
-    public static final boolean[] SEVENTH_COLUMN = initColumn(6);
-    public static final boolean[] EIGHTH_COLUMN = initColumn(7);
+    INSTANCE;
 
-    public static final boolean[] EIGHTH_RANK = initRow(0);
-    public static final boolean[] SEVENTH_RANK = initRow(8);
-    public static final boolean[] SIXTH_RANK = initRow(16);
-    public static final boolean[] FIFTH_RANK = initRow(24);
-    public static final boolean[] FOURTH_RANK = initRow(32);
-    public static final boolean[] THIRD_RANK = initRow(40);
-    public static final boolean[] SECOND_RANK = initRow(48);
-    public static final boolean[] FIRST_RANK = initRow(56);
-
-    public static final String[] ALGEBRAIC_NOTATION = initAlgebraicNotation();
-    public static final Map<String, Integer> POSITION_TO_COORD = initPosToCoordMap();
-
-    public static final int NUM_TILES = 64;
+    public final List<Boolean> FIRST_COLUMN = initColumn(0);
+    public final List<Boolean> SECOND_COLUMN = initColumn(1);
+    public final List<Boolean> THIRD_COLUMN = initColumn(2);
+    public final List<Boolean> FOURTH_COLUMN = initColumn(3);
+    public final List<Boolean> FIFTH_COLUMN = initColumn(4);
+    public final List<Boolean> SIXTH_COLUMN = initColumn(5);
+    public final List<Boolean> SEVENTH_COLUMN = initColumn(6);
+    public final List<Boolean> EIGHTH_COLUMN = initColumn(7);
+    public final List<Boolean> FIRST_ROW = initRow(0);
+    public final List<Boolean> SECOND_ROW = initRow(8);
+    public final List<Boolean> THIRD_ROW = initRow(16);
+    public final List<Boolean> FOURTH_ROW = initRow(24);
+    public final List<Boolean> FIFTH_ROW = initRow(32);
+    public final List<Boolean> SIXTH_ROW = initRow(40);
+    public final List<Boolean> SEVENTH_ROW = initRow(48);
+    public final List<Boolean> EIGHTH_ROW = initRow(56);
+    public final List<String> ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
+    public final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordinateMap();
+    public static final int START_TILE_INDEX = 0;
     public static final int NUM_TILES_PER_ROW = 8;
+    public static final int NUM_TILES = 64;
 
-    private BoardUtility(){
-        throw new RuntimeException("Cannot instantiate!");
-    }
-    public static boolean isValidTileCoord(final int coord) {
-        return coord >= 0 && coord < NUM_TILES;
-    }
-
-    private static boolean[] initColumn(int colNum){
-        final boolean[] column = new boolean[NUM_TILES];
-        do{
-            column[colNum] = true;
-            colNum += NUM_TILES_PER_ROW;
-        } while (colNum < NUM_TILES);
-        return column;
+    private static List<Boolean> initColumn(int columnNumber) {
+        final Boolean[] column = new Boolean[NUM_TILES];
+        Arrays.fill(column, false);
+        do {
+            column[columnNumber] = true;
+            columnNumber += NUM_TILES_PER_ROW;
+        } while(columnNumber < NUM_TILES);
+        return Collections.unmodifiableList(Arrays.asList((column)));
     }
 
-    public static boolean[] initRow (int rowNum){
-        final boolean[] row = new boolean[NUM_TILES];
-        do{
-            row[rowNum] = true;
-            rowNum++;
-        } while (rowNum % NUM_TILES_PER_ROW != 0);
-        return row;
+    private static List<Boolean> initRow(int rowNumber) {
+        final Boolean[] row = new Boolean[NUM_TILES];
+        Arrays.fill(row, false);
+        do {
+            row[rowNumber] = true;
+            rowNumber++;
+        } while(rowNumber % NUM_TILES_PER_ROW != 0);
+        return Collections.unmodifiableList(Arrays.asList(row));
     }
 
-    public static int getCoordAtPos(final String position){
-       return POSITION_TO_COORD.get(position);
-    }
-
-    public static String getPosAtCoord(final int coordinate){
-        return ALGEBRAIC_NOTATION[coordinate];
-    }
-    private static String[] initAlgebraicNotation() {
-        String[] finalArray = new String[64];
-        int[] numbers = {8, 7, 6, 5, 4, 3, 2, 1};
-        String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h"};
-        int count = 0;
-        for(int x : numbers) {
-            for (String y : letters) {
-                finalArray[count] = y + x;
-                count++;
-            }
+    private Map<String, Integer> initializePositionToCoordinateMap() {
+        final Map<String, Integer> positionToCoordinate = new HashMap<>();
+        for (int i = START_TILE_INDEX; i < NUM_TILES; i++) {
+            positionToCoordinate.put(ALGEBRAIC_NOTATION.get(i), i);
         }
-        return finalArray;
+        return Collections.unmodifiableMap(positionToCoordinate);
     }
 
-    public static Map<String, Integer> initPosToCoordMap(){
-        final Map<String, Integer> posToCoord = new HashMap<>();
-        for(int i = 0; i < NUM_TILES; i++){
-            posToCoord.put(ALGEBRAIC_NOTATION[i],i);
+    private static List<String> initializeAlgebraicNotation() {
+        return Collections.unmodifiableList(Arrays.asList(
+                "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8",
+                "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
+                "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6",
+                "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5",
+                "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4",
+                "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
+                "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
+                "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"));
+    }
+
+    public static boolean isValidTileCoordinate(final int coordinate) {
+        return coordinate >= START_TILE_INDEX && coordinate < NUM_TILES;
+    }
+
+    public int getCoordinateAtPosition(final String position) {
+        return POSITION_TO_COORDINATE.get(position);
+    }
+
+    public String getPositionAtCoordinate(final int coordinate) {
+        return ALGEBRAIC_NOTATION.get(coordinate);
+    }
+
+    public static boolean isThreatenedBoardImmediate(final Board board) {
+        return board.whitePlayer().isInCheck() || board.blackPlayer().isInCheck();
+    }
+
+    public static boolean kingThreat(final Move move) {
+        final Board board = move.getBoard();
+        final MoveTransition transition = board.currentPlayer().makeMove(move);
+        return transition.getToBoard().currentPlayer().isInCheck();
+    }
+
+    public static boolean isKingPawnTrap(final Board board,
+                                         final King king,
+                                         final int frontTile) {
+        final Piece piece = board.getPiece(frontTile);
+        return piece != null &&
+                piece.getPieceType() == Piece.PieceType.PAWN &&
+                piece.getPieceAllegiance() != king.getPieceAllegiance();
+    }
+
+    public static int mvvlva(final Move move) {
+        final Piece movingPiece = move.getMovedPiece();
+        if(move.isAttack()) {
+            final Piece attackedPiece = move.getAttackedPiece();
+            return (attackedPiece.getPieceValue() - movingPiece.getPieceValue() +  Piece.PieceType.KING.getPieceValue()) * 100;
         }
-        return ImmutableMap.copyOf(posToCoord);
+        return Piece.PieceType.KING.getPieceValue() - movingPiece.getPieceValue();
+    }
+
+    public static List<Move> lastNMoves(final Board board, int N) {
+        final List<Move> moveHistory = new ArrayList<>();
+        Move currentMove = board.getTransitionMove();
+        int i = 0;
+        while(currentMove != Move.MoveFactory.getNullMove() && i < N) {
+            moveHistory.add(currentMove);
+            currentMove = currentMove.getBoard().getTransitionMove();
+            i++;
+        }
+        return Collections.unmodifiableList(moveHistory);
+    }
+
+    public static boolean isEndGame(final Board board) {
+        return board.currentPlayer().isInCheckMate() ||
+                board.currentPlayer().isInStaleMate();
     }
 }
