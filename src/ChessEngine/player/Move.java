@@ -320,6 +320,10 @@ public abstract class Move {
         public String toString(){
            return "O-O";
         }
+
+        public boolean equals(final Object other){
+            return this == other || other instanceof KingsideCastleMove && super.equals(other);
+        }
     }
     public static class QueensideCastleMove extends CastleMove{
         public QueensideCastleMove(final Board board,
@@ -329,6 +333,10 @@ public abstract class Move {
                           final int castleRookStart,
                           final int castleRookDestination) {
             super(board, piece, destinationCoord, castleRook, castleRookStart, castleRookDestination);
+        }
+
+        public boolean equals(final Object other){
+            return this == other || other instanceof QueensideCastleMove && super.equals(other);
         }
 
         public String toString(){

@@ -19,9 +19,6 @@ public class King extends Piece {
     public King(int piecePos, Alliance pieceAll){
         super(PieceType.BISHOP, piecePos, pieceAll, true);
     }
-    public King(int piecePos, Alliance pieceAll, final boolean isFirstMove){
-        super(PieceType.BISHOP, piecePos, pieceAll, isFirstMove);
-    }
 
     @Override
     public Collection<Move> calcLegalMoves(Board board) {

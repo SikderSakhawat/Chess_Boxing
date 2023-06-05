@@ -32,18 +32,18 @@ public class Board {
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer,this.blackPlayer);
     }
-
-    // allows for the collection of all legal moves for each piece
-    private Collection<Move> calcLegalMoves(final Collection<Piece> pieces){
-        final List<Move> legalMoves = new ArrayList<>();
-
-        for(final Piece piece : pieces){
-            legalMoves.addAll(piece.calcLegalMoves(this));
+    @Override
+    public String toString(){
+        final StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < BoardUtility.NUM_TILES; i++){
+            final String tileText = this.gameBoard.get(i).toString();
+            builder.append(String.format("%3s", tileText));
+            if((i + 1) % BoardUtility.NUM_TILES_PER_ROW == 0){
+                builder.append("\n");
+            }
         }
-        return ImmutableList.copyOf(legalMoves);
+        return builder.toString();
     }
-
-
     public Player blackPlayer(){
         return this.blackPlayer;
     }
@@ -61,18 +61,10 @@ public class Board {
         return this.whitePiece;
     }
 
-    public Collection<Piece> calcActivePieces(final List<Tile> gameBoard, final Alliance color){
-        final List<Piece> activePieces = new ArrayList<>();
-        for(final Tile tile : gameBoard){
-            if(tile.isOccupied()){
-                final Piece piece = tile.getPiece();
-                if(piece.getPiecedAlliance() == color) {
-                    activePieces.add(piece);
-                }
-            }
-        }
-        return ImmutableList.copyOf(activePieces);
+    public Iterable<Move> getAllLegalMoves() {
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(), this.blackPlayer.getLegalMoves()));
     }
+
     public Tile getTile(int tileCoord){
         return gameBoard.get(tileCoord);
     }
@@ -129,11 +121,28 @@ public class Board {
         return builder.build(); // the board you see in chess initially
     }
 
-    public Iterable<Move> getAllLegalMoves() {
-        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(), this.blackPlayer.getLegalMoves()));
+    // allows for the collection of all legal moves for each piece
+    private Collection<Move> calcLegalMoves(final Collection<Piece> pieces){
+        final List<Move> legalMoves = new ArrayList<>();
+
+        for(final Piece piece : pieces){
+            legalMoves.addAll(piece.calcLegalMoves(this));
+        }
+        return ImmutableList.copyOf(legalMoves);
     }
 
-
+    public Collection<Piece> calcActivePieces(final List<Tile> gameBoard, final Alliance color){
+        final List<Piece> activePieces = new ArrayList<>();
+        for(final Tile tile : gameBoard){
+            if(tile.isOccupied()){
+                final Piece piece = tile.getPiece();
+                if(piece.getPiecedAlliance() == color) {
+                    activePieces.add(piece);
+                }
+            }
+        }
+        return ImmutableList.copyOf(activePieces);
+    }
     // this class will help us "build" an instance of the pieces onto our tiles, so our game board can have the correct pieces set up
     public static class Builder{
 
@@ -160,18 +169,5 @@ public class Board {
         public void setEnPassantPawn(Pawn enPassantPawn) {
             this.enPassantPawn = enPassantPawn;
         }
-    }
-
-    @Override
-    public String toString(){
-        final StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < BoardUtility.NUM_TILES; i++){
-            final String tileText = this.gameBoard.get(i).toString();
-            builder.append(String.format("%3s", tileText));
-            if((i + 1) % BoardUtility.NUM_TILES_PER_ROW == 0){
-                builder.append("\n");
-            }
-        }
-        return builder.toString();
     }
 }
