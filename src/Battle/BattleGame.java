@@ -10,4 +10,7 @@ public class BattleGame {
 
     }
 
+    public void takeTurn(BattlePlayers currentPLayer, BattlePlayers opponent){
+
+    }
 }
