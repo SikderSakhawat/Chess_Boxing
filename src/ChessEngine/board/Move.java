@@ -1,5 +1,6 @@
 package ChessEngine.board;
 
+import Battle.BattleGUI;
 import ChessEngine.piece.Pawn;
 import ChessEngine.piece.Piece;
 import ChessEngine.piece.Rook;
@@ -134,8 +135,7 @@ public abstract class Move {
 
     }
 
-    public static class PawnPromotion
-            extends PawnMove {
+    public static class PawnPromotion extends PawnMove {
 
         final Move decoratedMove;
         final Pawn promotedPawn;
@@ -193,8 +193,7 @@ public abstract class Move {
 
     }
 
-    public static class MajorMove
-            extends Move {
+    public static class MajorMove extends Move {
 
         public MajorMove(final Board board,
                          final Piece pieceMoved,
@@ -215,8 +214,7 @@ public abstract class Move {
 
     }
 
-    public static class MajorAttackMove
-            extends AttackMove {
+    public static class MajorAttackMove extends AttackMove {
 
         public MajorAttackMove(final Board board,
                                final Piece pieceMoved,
@@ -239,8 +237,7 @@ public abstract class Move {
 
     }
 
-    public static class PawnMove
-            extends Move {
+    public static class PawnMove extends Move {
 
         public PawnMove(final Board board,
                         final Piece pieceMoved,
@@ -260,8 +257,7 @@ public abstract class Move {
 
     }
 
-    public static class PawnAttackMove
-            extends AttackMove {
+    public static class PawnAttackMove extends AttackMove {
 
         public PawnAttackMove(final Board board,
                               final Piece pieceMoved,
@@ -319,8 +315,7 @@ public abstract class Move {
 
     }
 
-    public static class PawnJump
-            extends Move {
+    public static class PawnJump extends Move {
 
         public PawnJump(final Board board,
                         final Pawn pieceMoved,
@@ -353,8 +348,7 @@ public abstract class Move {
 
     }
 
-    static abstract class CastleMove
-            extends Move {
+    static abstract class CastleMove extends Move {
 
         final Rook castleRook;
         final int castleRookStart;
@@ -420,8 +414,7 @@ public abstract class Move {
 
     }
 
-    public static class KingSideCastleMove
-            extends CastleMove {
+    public static class KingSideCastleMove extends CastleMove {
 
         public KingSideCastleMove(final Board board,
                                   final Piece pieceMoved,
@@ -452,8 +445,7 @@ public abstract class Move {
 
     }
 
-    public static class QueenSideCastleMove
-            extends CastleMove {
+    public static class QueenSideCastleMove extends CastleMove {
 
         public QueenSideCastleMove(final Board board,
                                    final Piece pieceMoved,
@@ -516,6 +508,7 @@ public abstract class Move {
 
         @Override
         public Piece getAttackedPiece() {
+            // new BattleGUI();
             return this.attackedPiece;
         }
 

@@ -52,7 +52,7 @@ public final class Table extends Observable {
     private static final Table INSTANCE = new Table();
 
     private Table() {
-        this.gameFrame = new JFrame("Blind Chess Boxing!");
+        this.gameFrame = new JFrame("Chess Boxing!");
         final JMenuBar tableMenuBar = new JMenuBar();
         populateMenuBar(tableMenuBar);
         this.gameFrame.setJMenuBar(tableMenuBar);
@@ -124,6 +124,7 @@ public final class Table extends Observable {
         return this.useBook;
     }
 
+    // shows all parts of the chess board and the moveLog and taken pieces bar
     public void show() {
         Table.get().getMoveLog().clear();
         Table.get().getGameHistoryPanel().redo(chessBoard, Table.get().getMoveLog());
@@ -147,6 +148,7 @@ public final class Table extends Observable {
         frame.setLocation(x, y);
     }
 
+    // Method to ask user to input a file to continue a previously left off game
     private JMenu createFileMenu() {
         final JMenu filesMenu = new JMenu("File");
         filesMenu.setMnemonic(KeyEvent.VK_F);
@@ -202,6 +204,7 @@ public final class Table extends Observable {
         return filesMenu;
     }
 
+    // Creates a Menu to eval pieces, found in console (for testing)
     private JMenu createOptionsMenu() {
 
         final JMenu optionsMenu = new JMenu("Options");
@@ -252,6 +255,7 @@ public final class Table extends Observable {
         return optionsMenu;
     }
 
+    // Menu on top to give various preferences (basically quality of life)
     private JMenu createPreferencesMenu() {
 
         final JMenu preferencesMenu = new JMenu("Preferences");
@@ -371,6 +375,7 @@ public final class Table extends Observable {
 
     }
 
+    // checks status of player in chess game
     private static String playerInfo(final Player player) {
         return ("Player is: " +player.getAlliance() + "\nlegal moves (" +player.getLegalMoves().size()+ ") = " +player.getLegalMoves() + "\ninCheck = " +
                 player.isInCheck() + "\nisInCheckMate = " +player.isInCheckMate() +

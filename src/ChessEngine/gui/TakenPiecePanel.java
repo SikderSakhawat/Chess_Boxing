@@ -82,7 +82,7 @@ public class TakenPiecePanel extends JPanel {
 
         for (final Piece takenPiece : whiteTakenPieces) {
             try {
-                final BufferedImage image = ImageIO.read(new File("ChessBox/ChessPieceFiles"
+                final BufferedImage image = ImageIO.read(new File("ChessBoxing/ChessPieceFiles/"
                         + takenPiece.getPieceAllegiance().toString().substring(0, 1) + "" + takenPiece.toString()
                         + ".gif"));
                 final ImageIcon ic = new ImageIcon(image);
