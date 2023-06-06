@@ -2,9 +2,8 @@ import ChessEngine.board.Board;
 import ChessEngine.gui.Table;
 
 public class GameRunner {
-    public static void main(String[] args) {
-        Board board = Board.createStandardBoard();
-        System.out.println(board);
-        Table table = new Table();
+
+    public static void main(final String[] args) throws Exception {
+        Table.get().show();
     }
 }

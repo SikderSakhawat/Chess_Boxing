@@ -1,5 +1,9 @@
 package ChessEngine.gui;
 
+import ChessEngine.AI_WIP.StandardBoardEval;
+import ChessEngine.AI_WIP.StockAB;
+import ChessEngine.PGN_FENfiles.FENUtil;
+import ChessEngine.PGN_FENfiles.SQLgamePersist;
 import ChessEngine.board.*;
 import ChessEngine.piece.Piece;
 import ChessEngine.player.Player;
@@ -16,13 +20,15 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
+import static ChessEngine.PGN_FENfiles.PGNUtil.persistPGNFile;
+import static ChessEngine.PGN_FENfiles.PGNUtil.writeGameToPGNFile;
 import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 import static javax.swing.SwingUtilities.*;
 
 public final class Table extends Observable {
 
     private final JFrame gameFrame;
-    private final GameHistoryPanel gameHistoryPanel;
+    private final GameHistory gameHistoryPanel;
     private final TakenPiecePanel takenPiecesPanel;
     private final DebugPanel debugPanel;
     private final BoardPanel boardPanel;
@@ -46,7 +52,7 @@ public final class Table extends Observable {
     private static final Table INSTANCE = new Table();
 
     private Table() {
-        this.gameFrame = new JFrame("BlackWidow");
+        this.gameFrame = new JFrame("Blind Chess Boxing!");
         final JMenuBar tableMenuBar = new JMenuBar();
         populateMenuBar(tableMenuBar);
         this.gameFrame.setJMenuBar(tableMenuBar);
@@ -55,8 +61,8 @@ public final class Table extends Observable {
         this.boardDirection = BoardDirection.NORMAL;
         this.highlightLegalMoves = false;
         this.useBook = false;
-        this.pieceIconPath = "art/holywarriors/";
-        this.gameHistoryPanel = new GameHistoryPanel();
+        this.pieceIconPath = "ChessBoxing/ChessPieceFiles/";
+        this.gameHistoryPanel = new GameHistory();
         this.debugPanel = new DebugPanel();
         this.takenPiecesPanel = new TakenPiecePanel();
         this.boardPanel = new BoardPanel();
@@ -94,7 +100,7 @@ public final class Table extends Observable {
         return this.boardPanel;
     }
 
-    private GameHistoryPanel getGameHistoryPanel() {
+    private GameHistory getGameHistoryPanel() {
         return this.gameHistoryPanel;
     }
 
@@ -160,7 +166,7 @@ public final class Table extends Observable {
             String fenString = JOptionPane.showInputDialog("Input FEN");
             if(fenString != null) {
                 undoAllMoves();
-                chessBoard = FenUtilities.createGameFromFEN(fenString);
+                chessBoard = FENUtil.createGameFromFEN(fenString);
                 Table.get().getBoardPanel().drawBoard(chessBoard);
             }
         });
@@ -206,7 +212,7 @@ public final class Table extends Observable {
         optionsMenu.add(resetMenuItem);
 
         final JMenuItem evaluateBoardMenuItem = new JMenuItem("Evaluate Board", KeyEvent.VK_E);
-        evaluateBoardMenuItem.addActionListener(e -> System.out.println(StandardBoardEvaluator.get().evaluationDetails(chessBoard, gameSetup.getSearchDepth())));
+        evaluateBoardMenuItem.addActionListener(e -> System.out.println(StandardBoardEval.get().evaluationDetails(chessBoard, gameSetup.getSearchDepth())));
         optionsMenu.add(evaluateBoardMenuItem);
 
         final JMenuItem escapeAnalysis = new JMenuItem("Escape Analysis Score", KeyEvent.VK_S);
@@ -476,7 +482,7 @@ public final class Table extends Observable {
         protected Move doInBackground() {
             final Move bestMove;
             final Move bookMove = Table.get().getUseBook()
-                    ? MySqlGamePersistence.get().getNextBestMove(Table.get().getGameBoard(),
+                    ? SQLgamePersist.get().getNextBestMove(Table.get().getGameBoard(),
                     Table.get().getGameBoard().currentPlayer(),
                     Table.get().getMoveLog().getMoves().toString().replaceAll("\\[", "").replaceAll("]", ""))
                     : Move.MoveFactory.getNullMove();
@@ -484,7 +490,7 @@ public final class Table extends Observable {
                 bestMove = bookMove;
             }
             else {
-                final StockAlphaBeta strategy = new StockAlphaBeta(Table.get().getGameSetup().getSearchDepth());
+                final StockAB strategy = new StockAB(Table.get().getGameSetup().getSearchDepth());
                 strategy.addObserver(Table.get().getDebugPanel());
                 bestMove = strategy.execute(Table.get().getGameBoard());
             }
@@ -664,9 +670,7 @@ public final class Table extends Observable {
                     invokeLater(() -> {
                         gameHistoryPanel.redo(chessBoard, moveLog);
                         takenPiecesPanel.redo(moveLog);
-                        //if (gameSetup.isAIPlayer(chessBoard.currentPlayer())) {
                         Table.get().moveMadeUpdate(PlayerType.HUMAN);
-                        //}
                         boardPanel.drawBoard(chessBoard);
                         debugPanel.redo();
                     });
@@ -734,7 +738,7 @@ public final class Table extends Observable {
                 for (final Move move : pieceLegalMoves(board)) {
                     if (move.getDestinationCoordinate() == this.tileId) {
                         try {
-                            add(new JLabel(new ImageIcon(ImageIO.read(new File("art/misc/green_dot.png")))));
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File("ChessBoxing/ChessPieceFiles/green_dot.png")))));
                         }
                         catch (final IOException e) {
                             e.printStackTrace();

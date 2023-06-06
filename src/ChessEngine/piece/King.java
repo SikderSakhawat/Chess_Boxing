@@ -5,8 +5,6 @@ import ChessEngine.board.Board;
 import ChessEngine.board.BoardUtility;
 import ChessEngine.board.Move;
 import ChessEngine.board.Move.MajorMove;
-import ChessEngine.board.Tile;
-import com.google.common.collect.ImmutableList;
 
 import java.util.*;
 

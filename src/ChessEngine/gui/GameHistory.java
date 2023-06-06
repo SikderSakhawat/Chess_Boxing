@@ -13,13 +13,13 @@ import javax.swing.table.DefaultTableModel;
 import ChessEngine.board.Board;
 import ChessEngine.board.Move;
 
-class GameHistoryPanel extends JPanel {
+class GameHistory extends JPanel {
 
     private final DataModel model;
     private final JScrollPane scrollPane;
     private static final Dimension HISTORY_PANEL_DIMENSION = new Dimension(100, 40);
 
-    GameHistoryPanel() {
+    GameHistory() {
         this.setLayout(new BorderLayout());
         this.model = new DataModel();
         final JTable table = new JTable(model);

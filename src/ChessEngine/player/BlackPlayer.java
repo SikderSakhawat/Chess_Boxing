@@ -4,10 +4,8 @@ import ChessEngine.Alliance;
 import ChessEngine.board.Board;
 import ChessEngine.board.BoardUtility;
 import ChessEngine.board.Move;
-import ChessEngine.board.Tile;
 import ChessEngine.piece.Piece;
 import ChessEngine.piece.Rook;
-import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
