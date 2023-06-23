@@ -1,0 +1,6 @@
+5
+Queen,50,2,Crash,25,30, ,Punch,20,20,
+Knight,40,2,Bump,15,20, ,Hop,15,20,stun
+Bishop,30,2,Curse,25,30, ,Confusion,30,30,recharge
+Rook,50,2,Stomp,10,15, ,Shoot,15,20,disable
+Pawn,30,2,Slap,5,10, , Kick, 10,15,

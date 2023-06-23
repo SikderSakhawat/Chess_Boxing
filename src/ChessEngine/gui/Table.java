@@ -442,8 +442,7 @@ public final class Table extends Observable {
         notifyObservers(gameSetup);
     }
 
-    private static class TableGameAIWatcher
-            implements Observer {
+    private static class TableGameAIWatcher implements Observer {
 
         @Override
         public void update(final Observable o,

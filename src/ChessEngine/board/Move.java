@@ -1,6 +1,5 @@
 package ChessEngine.board;
 
-import Battle.BattleGUI;
 import ChessEngine.piece.Pawn;
 import ChessEngine.piece.Piece;
 import ChessEngine.piece.Rook;
@@ -508,7 +507,7 @@ public abstract class Move {
 
         @Override
         public Piece getAttackedPiece() {
-            // new BattleGUI();
+            // TODO pokemon battle here
             return this.attackedPiece;
         }
 
